@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <title>Hello, World!</title>
+</head>
+<body>
+  <h1>
+    Hello, World!
+  </h1>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virat Store - Official Online Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .product-card:hover { transform: translateY(-5px); transition: 0.3s; }
+        .product-img { width: 100%; height: 180px; object-fit: cover; border-radius: 1.5rem; }
+    </style>
+</head>
+<body class="bg-slate-50">
+
+    <nav class="bg-indigo-700 p-4 text-white sticky top-0 z-50 shadow-lg flex flex-col md:flex-row justify-between items-center gap-4">
+        <h1 class="text-2xl font-black italic tracking-tighter uppercase">VIRAT STORE</h1>
+        <div class="relative w-full md:w-1/2">
+            <input type="text" id="searchInput" onkeyup="searchProduct()" placeholder="Rasmali, Sweets search karein..." class="w-full p-3 pl-12 rounded-full text-black outline-none focus:ring-4 focus:ring-yellow-400/50">
+            <i class="fa fa-search absolute left-4 top-4 text-gray-400"></i>
+        </div>
+        <div class="flex gap-2 text-xs font-bold bg-green-500 px-3 py-1 rounded-full animate-pulse">
+            <i class="fab fa-whatsapp"></i> LIVE ORDERS
+        </div>
+    </nav>
+
+    <div class="flex flex-wrap justify-center gap-3 my-8 px-4">
+        <button onclick="filterCategory('All')" class="bg-white shadow-sm border px-6 py-2 rounded-full font-bold hover:bg-indigo-600 hover:text-white transition">All Items</button>
+        <button onclick="filterCategory('Food')" class="bg-white shadow-sm border px-6 py-2 rounded-full font-bold hover:bg-indigo-600 hover:text-white transition">🍔 Food</button>
+        <button onclick="filterCategory('Electronic')" class="bg-white shadow-sm border px-6 py-2 rounded-full font-bold hover:bg-indigo-600 hover:text-white transition">🔌 Electronic</button>
+        <button onclick="filterCategory('Fashion')" class="bg-white shadow-sm border px-6 py-2 rounded-full font-bold hover:bg-indigo-600 hover:text-white transition">👕 Fashion</button>
+    </div>
+
+    <div id="productContainer" class="container mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
+        </div>
+
+    <script>
+        // Aapka verified WhatsApp Number
+        const myWhatsApp = "917319965930";
+
+        // Yahan aapke products ki list hai
+        // Aap niche aur products isi tarah add kar sakte hain
+        let products = [
+            {
+                name: "Rasmali",
+                price: 55,
+                category: "Food",
+                image: "https://i.supaimg.com/dd42da9f-0bb9-4818-b52d-6f85cb4c5a0b/24af2d5f-dafd-4686-8d58-cadbe92ec157.png"
+            }
+        ];
+
+        function renderProducts(filter = 'All', search = '') {
+            const container = document.getElementById('productContainer');
+            container.innerHTML = '';
+
+            let filtered = products;
+            if (filter !== 'All') filtered = filtered.filter(p => p.category === filter);
+            if (search) filtered = filtered.filter(p => p.name.toLowerCase().includes(search.toLowerCase()));
+
+            filtered.forEach((p, index) => {
+                // Discount Logic: 199 se upar par 20% off
+                let finalPrice = p.price;
+                let discountHTML = '';
+                if (p.price > 199) {
+                    finalPrice = Math.floor(p.price * 0.8);
+                    discountHTML = `
+                        <div class="absolute top-4 left-4 bg-red-600 text-white text-[10px] font-bold px-2 py-1 rounded-full z-10 animate-bounce">20% OFF</div>
+                        <span class="text-xs text-gray-400 line-through ml-2 font-normal">₹${p.price}</span>
+                    `;
+                }
+
+                container.innerHTML += `
+                    <div class="bg-white rounded-[2rem] shadow-sm border p-4 relative flex flex-col justify-between product-card">
+                        <img src="${p.image}" class="product-img mb-4 shadow-sm" alt="${p.name}">
+                        <div>
+                            <h3 class="font-bold text-gray-800 text-lg truncate uppercase tracking-tighter">${p.name}</h3>
+                            <div class="flex items-center">
+                                <p class="text-2xl font-black text-indigo-700 italic">₹${finalPrice}</p>
+                                ${discountHTML}
+                            </div>
+                        </div>
+                        <button onclick="buyNow('${p.name}', '${finalPrice}')" class="mt-4 bg-orange-500 text-white py-4 rounded-2xl font-black text-sm hover:bg-indigo-700 transition shadow-lg shadow-orange-100">
+                            BUY NOW <i class="fab fa-whatsapp ml-1"></i>
+                        </button>
+                    </div>`;
+            });
+        }
+
+        function buyNow(name, price) {
+            const msg = `Virat Store - New Order!\n-----------------------\nItem: ${name}\nPrice: ₹${price}\n\nHi Virat, I want to order this. Please confirm!`;
+            window.open(`https://wa.me/${myWhatsApp}?text=${encodeURIComponent(msg)}`);
+        }
+
+        function searchProduct() {
+            const term = document.getElementById('searchInput').value;
+            renderProducts('All', term);
+        }
+
+        function filterCategory(cat) {
+            renderProducts(cat);
+        }
+
+        // Page load hone par products dikhayein
+        renderProducts();
+    </script>
+</body>
+</html>
