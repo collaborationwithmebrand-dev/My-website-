@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <title>Hello, World!</title>
+</head>
+<body>
+  <h1>
+    Hello, World!
+  </h1>
+</body>
+</html>
+<button onclick="exportWebsite()" style="background:#27ae60;">
+EXPORT & PUBLISH WEBSITE
+</button>
+<script>
+function exportWebsite(){
+
+  let fullHTML = document.documentElement.outerHTML;
+
+  let blob = new Blob([fullHTML], {type: "text/html"});
+  let link = document.createElement("a");
+
+  link.href = URL.createObjectURL(blob);
+  link.download = "Jhaji-Coaching-Published.html";
+  link.click();
+
+  alert("Website file downloaded! Now upload it to Replit and deploy.");
+}
+</script>
